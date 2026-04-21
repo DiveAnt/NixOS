@@ -38,15 +38,15 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ar_LY.UTF-8";
-    LC_IDENTIFICATION = "ar_LY.UTF-8";
-    LC_MEASUREMENT = "ar_LY.UTF-8";
-    LC_MONETARY = "ar_LY.UTF-8";
-    LC_NAME = "ar_LY.UTF-8";
-    LC_NUMERIC = "ar_LY.UTF-8";
-    LC_PAPER = "ar_LY.UTF-8";
-    LC_TELEPHONE = "ar_LY.UTF-8";
-    LC_TIME = "ar_LY.UTF-8";
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
   };
 
   # Enable the X11 windowing system.
@@ -141,6 +141,15 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
 
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
+  programs.ssh.startAgent = true;
+  
+  
+  nix = {
+    settings.experimental-features = [ "nix-command" "flakes" ];
+    gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 30d";
+    };
+  };
 }
