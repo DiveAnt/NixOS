@@ -18,8 +18,35 @@
   home-manager.users.diveant = import ./home.nix;
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+ # boot.loader.systemd-boot.enable = true;
+ # boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Use the GRUB 2 boot loader.
+  boot.loader = {
+   timeout = 10;
+
+  efi = {
+    efiSysMountPoint = "/boot";
+  };
+
+  grub = {
+    enable = true;
+    efiSupport = true;
+    efiInstallAsRemovable = true; # Otherwise /boot/EFI/BOOT/BOOTX64.EFI isn't generated
+    devices = ["nodev"];
+    useOSProber = true;
+    extraEntriesBeforeNixOS = false;
+    extraEntries = ''
+      menuentry "Reboot" {
+        reboot
+      }
+      menuentry "Poweroff" {
+        halt
+      }
+    '';
+  };
+};
+
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
